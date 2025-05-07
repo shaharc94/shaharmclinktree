@@ -1,0 +1,63 @@
+<!-- הוסף קובץ זה כ-edit.html או חלק מהעמוד -->
+<!DOCTYPE html>
+<html lang="he">
+<head>
+  <meta charset="UTF-8" />
+  <title>עורך לינקים</title>
+  <style>
+    body { font-family: Arial; padding: 20px; background-color: #f4f4f4; }
+    input, textarea { width: 100%; padding: 10px; margin-bottom: 10px; }
+    button { padding: 10px 20px; }
+    .link-block { background: #fff; padding: 10px; margin-bottom: 10px; border-radius: 10px; }
+  </style>
+</head>
+<body>
+
+  <h2>🛠 עורך לינקים לדף לינקים</h2>
+
+  <div id="editor"></div>
+
+  <button onclick="addLink()">➕ הוסף לינק</button>
+  <button onclick="generateHTML()">📄 הפק HTML</button>
+
+  <h3>🔽 קוד HTML מוכן לשיבוץ</h3>
+  <textarea id="output" rows="15"></textarea>
+
+  <script>
+    const links = [
+      { text: "V1 מחולל קישור לווטסאפ", url: "https://temp.lomdda.com/Shahar/whatsapplinker/index.html" },
+      { text: "(כולל הודעת טיוטה) V2 מחולל קישור לווטסאפ", url: "https://shaharc94.github.io/whatsapplinker2.0/" },
+      { text: "עלי-באלי<br> המלצות מוצרים מעלי-אקספרס", url: "https://shaharc94.github.io/alibali/" }
+    ];
+
+    function renderEditor() {
+      const container = document.getElementById("editor");
+      container.innerHTML = '';
+      links.forEach((link, index) => {
+        const block = document.createElement("div");
+        block.className = "link-block";
+        block.innerHTML = `
+          <input type="text" value="${link.text}" onchange="links[${index}].text = this.value">
+          <input type="text" value="${link.url}" onchange="links[${index}].url = this.value">
+        `;
+        container.appendChild(block);
+      });
+    }
+
+    function addLink() {
+      links.push({ text: "", url: "" });
+      renderEditor();
+    }
+
+    function generateHTML() {
+      const html = links.map(link =>
+        `<a href="${link.url}" target="_blank" class="link">${link.text}</a>`
+      ).join('\n');
+      document.getElementById("output").value = html;
+    }
+
+    renderEditor();
+  </script>
+
+</body>
+</html>
